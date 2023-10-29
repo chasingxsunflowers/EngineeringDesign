@@ -1,7 +1,5 @@
 package com.example.coffeedivider.presentation
 
-import android.annotation.SuppressLint
-import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,9 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -47,9 +43,8 @@ import java.time.LocalDate
 import java.time.Period
 import java.util.Calendar
 
-
+//The screen where the user can create their plan
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("SuspiciousIndentation")
 @Composable
 fun CreatePlanScreen(
     navController: NavController,
@@ -59,14 +54,14 @@ fun CreatePlanScreen(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        //verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(40.dp))
 
+        //Text "Let's create your plan!"
+        Spacer(modifier = Modifier.height(40.dp))
         Text(
             text = "Let's create your plan!",
             fontSize = 26.sp,
@@ -77,11 +72,11 @@ fun CreatePlanScreen(
                 .padding(20.dp)
         )
 
+        //Text "Select the date by which you want to reach 100% decaf:"
         Spacer(modifier = Modifier.height(60.dp))
-
         Row {
             Text(
-                text = "Select the date by which you want to reach 0% decaf:",
+                text = "Select the date by which you want to reach 100% decaf:",
                 fontSize = 18.sp,
                 lineHeight = 25.sp,
                 color = Color(0xFFC89B78),
@@ -89,11 +84,11 @@ fun CreatePlanScreen(
                 modifier = modifier
                     .padding(horizontal = 30.dp)
             )
-
             Spacer(modifier = Modifier.width(200.dp))
-
         }
         Spacer(modifier = Modifier.height(5.dp))
+
+        //Calculations behind the user's choice of the day they reach 100% decaf
 
         val calendar = Calendar.getInstance()
 
@@ -114,18 +109,15 @@ fun CreatePlanScreen(
         val week5 = date.plus(periodWeek5)
         val week6 = date.plus(periodWeek6)
 
-
+        //List with the possible options: 3, 4, 5 or 6 weeks from the current day
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-
             val isSelectedItem: (String) -> Boolean = { deadline.value == it }
             val onChangeState: (String) -> Unit = { deadline.value = it }
 
             val items = listOf("$week3", "$week4", "$week5", "$week6")
-
 
             items.forEach { item ->
                 Row(
@@ -156,26 +148,10 @@ fun CreatePlanScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-
             }
 
-//            Row { //this will be shown on the next page
-//                Text(
-//                    text = "Selected date: ${deadline.value.ifEmpty { "NONE" }} (TESTING)",
-//                    fontSize = 18.sp,
-//                    lineHeight = 25.sp,
-//                    color = Color(0xFFC89B78),
-//                    textAlign = TextAlign.Left,
-//                    modifier = modifier
-//                        .padding(horizontal = 30.dp)
-//                )
-//
-//                Spacer(modifier = Modifier.width(200.dp))
-//
-//            }
-
+            //Text "How many cups do you drink per day?"
             Spacer(modifier = Modifier.height(40.dp))
-
             Row {
                 Text(
                     text = "How many cups do you drink per day?",
@@ -186,17 +162,12 @@ fun CreatePlanScreen(
                     modifier = modifier
                         .padding(horizontal = 30.dp)
                 )
-
                 Spacer(modifier = Modifier.width(200.dp))
-
             }
 
-
-
+            //Place for the user's input of how many cups of coffee per day they drink
             Spacer(modifier = Modifier.height(15.dp))
-
             var numberOfCups by remember { mutableStateOf("2") }
-
             OutlinedTextField(
                 value = numberOfCups,
                 onValueChange = { numberOfCups = it },
@@ -208,24 +179,8 @@ fun CreatePlanScreen(
                 )
             )
 
-//            Row { //this will be shown on the next page
-//                Text(
-//                    text = "Amount of cups: $numberOfCups (TESTING)",
-//                    fontSize = 18.sp,
-//                    lineHeight = 25.sp,
-//                    color = Color(0xFFC89B78),
-//                    textAlign = TextAlign.Left,
-//                    modifier = modifier
-//                        .padding(horizontal = 30.dp)
-//                )
-//
-//                Spacer(modifier = Modifier.width(200.dp))
-//
-//            }
-
-
+            //Interactive arrow which leads to the ChooseUserScreen.kt screen
             Spacer(modifier = Modifier.height(70.dp))
-
             Row(
                 modifier = Modifier
                     .clickable {
@@ -233,7 +188,6 @@ fun CreatePlanScreen(
                     }
             ) {
                 Spacer(modifier = Modifier.width(260.dp))
-
                 Image(
                     painter = painterResource(R.drawable.arrow_right),
                     contentDescription = null,

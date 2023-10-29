@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -30,14 +29,15 @@ import com.example.coffeedivider.presentation.permissions.SystemBroadcastReceive
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
+//The screen the user sees when the application makes a bluetooth connection with the Arduino
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun TemperatureHumidityScreen(
+fun BluetoothScreen(
     navController: NavController,
     onBluetoothStateChanged: () -> Unit,
-    viewModel: TempHumidityViewModel = hiltViewModel()
-) {
+    viewModel: CharacteristicModel = hiltViewModel()
 
+) {
     SystemBroadcastReceiver(systemAction = BluetoothAdapter.ACTION_STATE_CHANGED) { bluetoothState ->
         val action = bluetoothState?.action ?: return@SystemBroadcastReceiver
         if (action == BluetoothAdapter.ACTION_STATE_CHANGED) {
@@ -160,7 +160,6 @@ fun TemperatureHumidityScreen(
                             .clickable {
                                 navController.navigate(Screen.MainScreen.route)
                             }
-
                     )
                 }
             } else if (bleConnectionState == ConnectionState.Disconnected) {
@@ -175,5 +174,4 @@ fun TemperatureHumidityScreen(
             }
         }
     }
-
 }

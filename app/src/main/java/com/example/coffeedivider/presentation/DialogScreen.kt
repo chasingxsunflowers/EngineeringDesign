@@ -11,15 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
@@ -34,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 
+//The dialog which shows up when the user clicks on the coffee mug button
 @Composable
 fun DialogScreen(
     navController: NavController,
@@ -47,7 +45,6 @@ fun DialogScreen(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                //.background(MaterialTheme.colorScheme.background)
                 .height(300.dp)
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp)
@@ -57,17 +54,12 @@ fun DialogScreen(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
-
-
                 val isSelectedItem: (String) -> Boolean = { cupSize.value == it }
                 val onChangeState: (String) -> Unit = { cupSize.value = it }
 
                 val items = listOf("Small", "Medium", "Large")
 
-//                Text(
-//                    text = "Selected cup: ${cupSize.value.ifEmpty { "NONE" }}",
-//                    color = Color(0xFFC89B78)
-//                )
+                //List with the cup size options that the user can choose
                 items.forEach { item ->
                     Row(
                         modifier = Modifier
@@ -96,8 +88,9 @@ fun DialogScreen(
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
-
                 }
+
+                //"Make your coffee" button which initializes the bluetooth connection
                 Spacer(modifier = Modifier.height(20.dp))
                 Box(
                     contentAlignment = Alignment.Center,
@@ -107,11 +100,7 @@ fun DialogScreen(
                         .clip(CircleShape)
                         .background(Color(0xFF593117), CircleShape)
                         .clickable {
-                            navController.navigate(Screen.TemperatureHumidityScreen.route) {
-                                popUpTo(Screen.StartScreen.route) {
-                                    inclusive = true
-                                }
-                            }
+                            navController.navigate(Screen.BluetoothScreen.route)
                         }
                 ){
                     Text(

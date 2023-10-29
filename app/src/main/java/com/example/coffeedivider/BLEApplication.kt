@@ -5,4 +5,7 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class BLEApplication : Application() {
+    companion object {
+        var globalVar = ""
+    }
 }

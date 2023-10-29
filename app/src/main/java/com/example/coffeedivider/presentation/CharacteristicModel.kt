@@ -5,16 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.coffeedivider.data.CharacteristicReceiveManager
 import com.example.coffeedivider.data.ConnectionState
-import com.example.coffeedivider.data.TemperatureAndHumidityReceiveManager
 import com.example.coffeedivider.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+//Bluetooth Low Energy - Model of the characteristic, changes depending on the state of the connection
 @HiltViewModel
-class TempHumidityViewModel @Inject constructor(
-    private val temperatureAndHumidityReceiveManager: TemperatureAndHumidityReceiveManager
+class CharacteristicModel @Inject constructor(
+    private val characteristicReceiveManager: CharacteristicReceiveManager
 ) : ViewModel() {
 
     var initializingMessage by mutableStateOf<String?>(null)
@@ -26,19 +27,19 @@ class TempHumidityViewModel @Inject constructor(
     var day by mutableStateOf(0)
         private set
 
-    var weeks by mutableStateOf(0)
+    var weeks by mutableStateOf("")
         private set
 
     var connectionState by mutableStateOf<ConnectionState>(ConnectionState.Uninitialized)
 
     private fun subscribeToChanges() {
         viewModelScope.launch {
-            temperatureAndHumidityReceiveManager.data.collect { result ->
+            characteristicReceiveManager.data.collect { result ->
                 when (result) {
                     is Resource.Success -> {
                         connectionState = result.data.connectionState
                         day = result.data.day
-                        weeks = result.data.weeks
+                        weeks = result.data.weeks.toString()
                     }
 
                     is Resource.Loading -> {
@@ -56,22 +57,22 @@ class TempHumidityViewModel @Inject constructor(
     }
 
     fun disconnect() {
-        temperatureAndHumidityReceiveManager.disconnect()
+        characteristicReceiveManager.disconnect()
     }
 
     fun reconnect() {
-        temperatureAndHumidityReceiveManager.reconnect()
+        characteristicReceiveManager.reconnect()
     }
 
     fun initializeConnection() {
         errorMessage = null
         subscribeToChanges()
-        temperatureAndHumidityReceiveManager.startReceiving()
+        characteristicReceiveManager.startReceiving()
     }
 
     override fun onCleared() {
         super.onCleared()
-        temperatureAndHumidityReceiveManager.closeConnection()
+        characteristicReceiveManager.closeConnection()
     }
 
 

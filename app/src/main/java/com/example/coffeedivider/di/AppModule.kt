@@ -3,8 +3,8 @@ package com.example.coffeedivider.di
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Context
-import com.example.coffeedivider.data.TemperatureAndHumidityReceiveManager
-import com.example.coffeedivider.data.ble.TemperatureAndHumidityBLEReceiveManager
+import com.example.coffeedivider.data.CharacteristicReceiveManager
+import com.example.coffeedivider.data.ble.CharacteristicBLEReceiveManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +28,9 @@ object AppModule {
     fun provideTempHumidityReceiveManager(
         @ApplicationContext context: Context,
         bluetoothAdapter: BluetoothAdapter
-    ): TemperatureAndHumidityReceiveManager {
-        return TemperatureAndHumidityBLEReceiveManager(bluetoothAdapter, context)
+    ): CharacteristicReceiveManager {
+        return CharacteristicBLEReceiveManager(bluetoothAdapter, context)
     }
+
+
 }

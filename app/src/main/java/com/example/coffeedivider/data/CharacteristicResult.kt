@@ -1,7 +1,8 @@
 package com.example.coffeedivider.data
 
-data class TempHumidityResult(
+data class CharacteristicResult(
     val day: Int,
-    val weeks: Int,
+    val weeks: String,
     val connectionState: ConnectionState
 )
+

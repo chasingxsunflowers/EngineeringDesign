@@ -3,9 +3,9 @@ package com.example.coffeedivider.data
 import com.example.coffeedivider.util.Resource
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-interface TemperatureAndHumidityReceiveManager {
+interface CharacteristicReceiveManager {
 
-    val data: MutableSharedFlow<Resource<TempHumidityResult>>
+    val data: MutableSharedFlow<Resource<CharacteristicResult>>
 
     fun reconnect()
 
